@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -41,6 +42,11 @@ public class Order {
     public Order(List<OrderedProduct> orderedProducts, User user) {
         this.orderedProducts = orderedProducts;
         this.user = user;
+    }
+
+    public Order(Collection<OrderedProduct> orderedProducts, Double totalPrice) {
+        this.orderedProducts = (List<OrderedProduct>) orderedProducts;
+        this.totalPrice = totalPrice;
     }
 
     public Order(List<OrderedProduct> orderedProducts, Double totalPrice, User user) {

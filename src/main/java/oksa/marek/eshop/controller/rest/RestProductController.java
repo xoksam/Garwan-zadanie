@@ -3,19 +3,18 @@ package oksa.marek.eshop.controller.rest;
 import oksa.marek.eshop.controller.ProductFilter;
 import oksa.marek.eshop.controller.services.ProductService;
 import oksa.marek.eshop.model.entities.Product;
-import oksa.marek.eshop.controller.errorhandlers.exeptions.CustomIllegalArgumentException;
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomIllegalArgumentException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@RestController
 @Validated
+@RestController
 public class RestProductController {
 
     private final ProductService productService;
@@ -24,7 +23,7 @@ public class RestProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/api/admin/products/page/{num}")
+    @GetMapping("/admin/products/page/{num}")
     public ResponseEntity<List<Product>> getAllProducts(@PathVariable
                                                         @PositiveOrZero(message = "Page number must be >= 0 !")
                                                                 Integer num) {
@@ -32,7 +31,7 @@ public class RestProductController {
         return new ResponseEntity<>(productService.findAllProductsLimitByPage(num).getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/api/products/id/{id}")
+    @GetMapping("/public/products/id/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable
                                                   @Positive(message = "Id of the product must be > 0 !")
                                                           Long id) {
@@ -41,7 +40,7 @@ public class RestProductController {
     }
 
     //Just a nice little addition for admin
-    @GetMapping("/api/admin/products/name/{name}/page/{num}")
+    @GetMapping("/admin/products/name/{name}/page/{num}")
     public ResponseEntity<List<Product>> getProductByName(@PathVariable @Size(max = 255)
                                                           @NotNull(message = "Product name cannot be null !")
                                                                   String name,
@@ -53,7 +52,7 @@ public class RestProductController {
         return new ResponseEntity<>(productService.findByName(name, num), HttpStatus.OK);
     }
 
-    @PostMapping("/api/admin/addProduct")
+    @PostMapping("/admin/addProduct")
     public ResponseEntity<Product> addNewProduct(@RequestBody
                                                  @NotNull(message = "Added product cannot be null !")
                                                  @Valid
@@ -62,7 +61,7 @@ public class RestProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(newProduct));
     }
 
-    @PostMapping("/api/products/filter/page/{num}")
+    @PostMapping("/products/filter/page/{num}")
     public ResponseEntity<List<Product>> getFilteredProducts(@RequestBody ProductFilter filter,
                                                              @PathVariable("num")
                                                              @PositiveOrZero(message = "Page number must be > 0 !")

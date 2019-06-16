@@ -2,7 +2,6 @@ package oksa.marek.eshop.model.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import oksa.marek.eshop.model.enums.EUserRole;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;
@@ -14,6 +13,7 @@ import java.util.List;
 @Table(name = "users")
 @RepositoryRestResource(exported = false)
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -23,11 +23,11 @@ public class User {
     private String userName;
 
     @NotNull
+    private String password;
+
+    @NotNull
     @Size(min = 5, max = 60, message = "E-mail length must be between 5-60 characters")
     private String email;
-
-    @Enumerated(value = EnumType.STRING)
-    private EUserRole role;
 
     @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "user_id")
@@ -37,24 +37,18 @@ public class User {
     public User() {
     }
 
-    public User(String userName, String email) {
+    public User(String userName, String password, String email) {
         this.userName = userName;
         this.email = email;
-        this.role = EUserRole.ROLE_USER;
+        this.password = password;
     }
 
-    public User(String userName, String email, EUserRole role) {
-        this.userName = userName;
-        this.email = email;
-        this.role = role;
+    public String getPassword() {
+        return password;
     }
 
-    public EUserRole getRole() {
-        return role;
-    }
-
-    public void setRole(EUserRole role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Order> getOrders() {
@@ -94,7 +88,6 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", userName='" + userName + '\'' +
-                ", role=" + role +
                 ", email='" + email + '\'' +
 //                ", orders=" + orders +
                 '}';

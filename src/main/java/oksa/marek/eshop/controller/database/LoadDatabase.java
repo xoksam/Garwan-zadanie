@@ -3,9 +3,9 @@ package oksa.marek.eshop.controller.database;
 import oksa.marek.eshop.controller.repositories.*;
 import oksa.marek.eshop.controller.services.OrderService;
 import oksa.marek.eshop.controller.services.ProductService;
-import oksa.marek.eshop.model.enums.EAnimalCategory;
-import oksa.marek.eshop.model.enums.EUserRole;
+import oksa.marek.eshop.controller.services.UserService;
 import oksa.marek.eshop.model.entities.*;
+import oksa.marek.eshop.model.enums.EAnimalCategory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +18,11 @@ public class LoadDatabase {
 
 
     @Bean
-    public CommandLineRunner initUsers(IUserRepository userRepository) {
+    public CommandLineRunner initUsers(UserService userService) {
         return args -> {
-            System.out.println("Preloading: " + userRepository.save(new User("FeroTestovac", "feroTestovac@gmail.com")));
-            System.out.println("Preloading: " + userRepository.save(new User("mrkvac", "mrkvac@centrum.sk")));
-            System.out.println("Preloading: " + userRepository.save(new User("admin", "admin@eshop.sk", EUserRole.ROLE_ADMIN)));
-            System.out.println("Preloading: " + userRepository.save(new User("testUser", "tstUsr@gmail.com")));
+            System.out.println("Preloading: " + userService.save(new User("FeroTestovac","pass" ,"feroTestovac@gmail.com")));
+            System.out.println("Preloading: " + userService.save(new User("mrkvac", "pswd", "mrkvac@centrum.sk")));
+            System.out.println("Preloading: " + userService.save(new User("testUser", "testPassWd", "tstUsr@gmail.com")));
         };
     }
 
@@ -94,10 +93,10 @@ public class LoadDatabase {
             User user = userRepository.findByUserName("mrkvac");
             User user2 = userRepository.findByUserName("testUser");
 
-            OrderedProduct orderedProduct = orderedProductRepository.save(new OrderedProduct(product, 3));
-            OrderedProduct orderedProduct2 = orderedProductRepository.save(new OrderedProduct(product2, 2));
+            OrderedProduct orderedProduct = orderedProductRepository.save(new OrderedProduct(product, 3, product.getPrice()));
+            OrderedProduct orderedProduct2 = orderedProductRepository.save(new OrderedProduct(product2, 2, product2.getPrice()));
 
-            OrderedProduct orderedProduct3 = orderedProductRepository.save(new OrderedProduct(product, 5));
+            OrderedProduct orderedProduct3 = orderedProductRepository.save(new OrderedProduct(product, 5, product.getPrice()));
 
 
             List<OrderedProduct> orderedProducts = Arrays.asList(orderedProductRepository.findById(orderedProduct.getId()).get());

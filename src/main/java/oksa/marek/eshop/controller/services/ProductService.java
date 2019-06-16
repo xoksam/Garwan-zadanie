@@ -3,7 +3,7 @@ package oksa.marek.eshop.controller.services;
 import oksa.marek.eshop.controller.ProductFilter;
 import oksa.marek.eshop.controller.repositories.IProductRepository;
 import oksa.marek.eshop.model.entities.Product;
-import oksa.marek.eshop.controller.errorhandlers.exeptions.CustomNotFoundException;
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

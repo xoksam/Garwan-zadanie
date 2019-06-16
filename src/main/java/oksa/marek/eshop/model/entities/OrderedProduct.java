@@ -1,6 +1,7 @@
 package oksa.marek.eshop.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import oksa.marek.eshop.controller.services.ProductService;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;
@@ -26,8 +27,10 @@ public class OrderedProduct {
     @NotNull
     private Integer count;
 
+    @NotNull
+    @Positive(message = "Price at time of purchase must be a positive number !")
     private Double priceAtTimeOfPurchase;
-    
+
     @ManyToMany
     @JsonIgnore
     @JoinTable(name = "order_ordered_products",
@@ -36,10 +39,19 @@ public class OrderedProduct {
     private List<Order> orders;
 
 
-    public OrderedProduct(Product product, Integer count) {
+//    public OrderedProduct(Product product, Integer count) {
+//        this.product = product;
+//        this.count = count;
+//        setPriceAtTimeOfPurchase(product.getPrice());  //Doesn't work
+//    }
+
+    public OrderedProduct(Product product, Integer count, Double priceAtTimeOfPurchase) {
         this.product = product;
         this.count = count;
-//        setPriceAtTimeOfPurchase(product.getPrice());
+        this.priceAtTimeOfPurchase = priceAtTimeOfPurchase;
+    }
+
+    public OrderedProduct() {
     }
 
     public List<Order> getOrders() {
@@ -50,21 +62,12 @@ public class OrderedProduct {
         this.orders = orders;
     }
 
-    public OrderedProduct(Product product, Integer count, Double priceAtTimeOfPurchase) {
-        this.product = product;
-        this.count = count;
-        this.priceAtTimeOfPurchase = priceAtTimeOfPurchase;
-    }
-
     public Double getPriceAtTimeOfPurchase() {
         return priceAtTimeOfPurchase;
     }
 
     public void setPriceAtTimeOfPurchase(Double priceAtTimeOfPurchase) {
         this.priceAtTimeOfPurchase = priceAtTimeOfPurchase;
-    }
-
-    public OrderedProduct() {
     }
 
     public Product getProduct() {
@@ -91,4 +94,13 @@ public class OrderedProduct {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return "OrderedProduct{" +
+                "id=" + id +
+                ", product.name=" + product.getName() +
+                ", count=" + count +
+                ", priceAtTimeOfPurchase=" + priceAtTimeOfPurchase +
+                '}';
+    }
 }

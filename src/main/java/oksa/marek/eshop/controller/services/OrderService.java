@@ -3,11 +3,13 @@ package oksa.marek.eshop.controller.services;
 
 import oksa.marek.eshop.controller.repositories.IOrderRepository;
 import oksa.marek.eshop.model.entities.Order;
-import oksa.marek.eshop.controller.errorhandlers.exeptions.CustomNotFoundException;
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -17,6 +19,10 @@ public class OrderService {
     @Autowired
     private IOrderRepository repository;
 
+    public Page<Order> getAllOrdersByUserIdForLoggedInUser(Long userId, Integer pageNum) {
+
+        return repository.findAllOrdersByUserId(userId, PageRequest.of(pageNum, ORDERS_PER_PAGE));
+    }
 
     public Page<Order> getOrdersLimitByPageNum(Integer pageNum) {
         return repository.getOrdersLimitByPageNum(PageRequest.of(pageNum, ORDERS_PER_PAGE));

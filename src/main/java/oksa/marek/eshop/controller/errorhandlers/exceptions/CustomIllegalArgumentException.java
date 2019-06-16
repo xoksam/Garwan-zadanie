@@ -1,4 +1,4 @@
-package oksa.marek.eshop.controller.errorhandlers.exeptions;
+package oksa.marek.eshop.controller.errorhandlers.exceptions;
 
 public class CustomIllegalArgumentException extends RuntimeException {
 

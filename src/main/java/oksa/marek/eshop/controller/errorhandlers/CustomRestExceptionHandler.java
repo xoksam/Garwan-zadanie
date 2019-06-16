@@ -1,7 +1,7 @@
 package oksa.marek.eshop.controller.errorhandlers;
 
-import oksa.marek.eshop.controller.errorhandlers.exeptions.CustomIllegalArgumentException;
-import oksa.marek.eshop.controller.errorhandlers.exeptions.CustomNotFoundException;
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomIllegalArgumentException;
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomNotFoundException;
 import oksa.marek.eshop.controller.errorhandlers.responses.CustomErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
