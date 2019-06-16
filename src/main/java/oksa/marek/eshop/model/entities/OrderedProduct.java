@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Entity
@@ -17,8 +19,11 @@ public class OrderedProduct {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
+    @NotNull(message = "Product in OrderedProduct cannot be null !")
     private Product product;
 
+    @Positive(message = "Number of products must be a positive number !")
+    @NotNull
     private Integer count;
 
     private Double priceAtTimeOfPurchase;

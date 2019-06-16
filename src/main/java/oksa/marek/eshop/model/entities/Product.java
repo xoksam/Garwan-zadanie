@@ -3,6 +3,8 @@ package oksa.marek.eshop.model.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -15,16 +17,18 @@ public class Product {
 
     @NotNull
     @Column(nullable = false)
+    @Size(max = 255, min = 3, message = "The name length of the Product must be between 3 and 255 characters !")
     private String name;
 
     @NotNull
     @Column(nullable = false)
-    @Positive(message = "Product price must be a positive number")
+    @PositiveOrZero(message = "Product price must be a positive number")
     private Double price;
 
     private String description;
 
     @ManyToMany()
+    @NotNull
     @JoinTable(name = "products_animal_categories",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "animal_category_id"))

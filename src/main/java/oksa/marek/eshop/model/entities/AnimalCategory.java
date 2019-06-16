@@ -12,6 +12,7 @@ import java.util.List;
 @RepositoryRestResource(exported = false)
 @Table(name = "animal_categories")
 public class AnimalCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

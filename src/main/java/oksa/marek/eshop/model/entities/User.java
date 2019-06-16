@@ -3,7 +3,6 @@ package oksa.marek.eshop.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import oksa.marek.eshop.model.enums.EUserRole;
-import oksa.marek.eshop.model.entities.Order;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;

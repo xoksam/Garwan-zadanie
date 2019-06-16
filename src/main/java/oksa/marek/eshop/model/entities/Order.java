@@ -38,8 +38,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(List<OrderedProduct> orderedProducts,
-                 @NotNull(message = "User cannot be null !") User user) {
+    public Order(List<OrderedProduct> orderedProducts, User user) {
         this.orderedProducts = orderedProducts;
         this.user = user;
     }

@@ -3,6 +3,7 @@ package oksa.marek.eshop.model.entities;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -13,8 +14,9 @@ public class Gallery {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull(message = "List with image URLs cannot be null")
     @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private List<String> urls;
 
     public Gallery() {

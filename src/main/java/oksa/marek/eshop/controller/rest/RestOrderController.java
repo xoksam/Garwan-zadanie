@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -32,13 +33,12 @@ public class RestOrderController {
     @GetMapping("/api/admin/orders/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable
                                               @Positive(message = "Order id must be > 0 !") Long id) {
-        Order order = orderService.findById(id);
-        return ResponseEntity.ok(order);
+        return ResponseEntity.ok(orderService.findById(id));
     }
 
     @PostMapping("/api/user/createOrder")
     public ResponseEntity<Order> createNewOrder(@RequestBody
-                                                @NotNull(message = "New Order cannot be null !") Order newOrder) {
+                                                @NotNull(message = "New Order cannot be null !") @Valid Order newOrder) {
 
         return new ResponseEntity<>(orderService.save(newOrder), HttpStatus.OK);
     }
