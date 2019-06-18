@@ -1,6 +1,7 @@
 package oksa.marek.eshop.controller.database;
 
 import oksa.marek.eshop.controller.repositories.*;
+import oksa.marek.eshop.controller.security.SecurityConstants;
 import oksa.marek.eshop.controller.services.OrderService;
 import oksa.marek.eshop.controller.services.ProductService;
 import oksa.marek.eshop.controller.services.UserService;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Configuration
-public class LoadDatabase {
+public class LoadDatabaseBeans {
 
 
     @Bean
@@ -23,6 +24,9 @@ public class LoadDatabase {
             System.out.println("Preloading: " + userService.save(new User("FeroTestovac","pass" ,"feroTestovac@gmail.com")));
             System.out.println("Preloading: " + userService.save(new User("mrkvac", "pswd", "mrkvac@centrum.sk")));
             System.out.println("Preloading: " + userService.save(new User("testUser", "testPassWd", "tstUsr@gmail.com")));
+
+            System.out.println("Preloading: " + userService.save(new User(
+                    "admin", "admin", "admin@eshop.com", SecurityConstants.ADMIN_ROLE)));
         };
     }
 

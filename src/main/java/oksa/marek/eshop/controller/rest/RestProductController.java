@@ -39,7 +39,8 @@ public class RestProductController {
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
-    //Just a nice little addition for admin
+    //Just a nice little addition for admin7
+    //Returns a list of products containing the word {name}
     @GetMapping("/admin/products/name/{name}/page/{num}")
     public ResponseEntity<List<Product>> getProductByName(@PathVariable @Size(max = 255)
                                                           @NotNull(message = "Product name cannot be null !")
@@ -49,7 +50,7 @@ public class RestProductController {
                                                                   Integer num) {
         // Just in case
         name = name.replaceAll("[^a-zA-Z0-9 ]", "");
-        return new ResponseEntity<>(productService.findByName(name, num), HttpStatus.OK);
+        return new ResponseEntity<>(productService.findByName(name, num).getContent(), HttpStatus.OK);
     }
 
     @PostMapping("/admin/addProduct")
@@ -67,7 +68,7 @@ public class RestProductController {
                                                              @PositiveOrZero(message = "Page number must be > 0 !")
                                                                      Integer num) {
 
-        // Ak nechce filtrovat, teda ak je filter null,  tak vratim list vsetkych productov
+        // If filter is null, then return all products
         if (filter == null) {
             return ResponseEntity.ok(productService.findAllProductsLimitByPage(num).getContent());
         }
@@ -79,7 +80,7 @@ public class RestProductController {
         if (filter.getMinPrice() == null) {
             filter.setMinPrice(-1.0);
         }
-        // hmm .. ?
+        // hmm ..
         if (filter.getMaxPrice() == null) {
             filter.setMaxPrice((double) (Integer.MAX_VALUE - 1));
         }

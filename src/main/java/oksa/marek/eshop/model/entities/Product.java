@@ -1,10 +1,14 @@
 package oksa.marek.eshop.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -12,6 +16,7 @@ import java.util.List;
 public class Product {
 
     @Id
+    @JsonInclude(Include.NON_NULL)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -25,9 +30,10 @@ public class Product {
     @PositiveOrZero(message = "Product price must be a positive number")
     private Double price;
 
+    @JsonInclude(Include.NON_NULL)
     private String description;
 
-    @ManyToMany()
+    @ManyToMany
     @NotNull
     @JoinTable(name = "products_animal_categories",
             joinColumns = @JoinColumn(name = "product_id"),
@@ -35,17 +41,26 @@ public class Product {
     private List<AnimalCategory> animalCategories;
 
     @OneToOne
+    @JsonInclude(Include.NON_NULL)
     private Gallery gallery; //List of image URLS
 
     public Product() {
     }
 
-    public Product(List<AnimalCategory> animalCategories, @NotNull Double price, String description, String name, Gallery gallery) {
+    public Product(List<AnimalCategory> animalCategories, Double price, String description, String name, Gallery gallery) {
         this.animalCategories = animalCategories;
         this.price = price;
         this.description = description;
         this.name = name;
         this.gallery = gallery;
+    }
+
+    //Special constructor for the JPQL Query in IProductRepository
+    public Product(Product p) {
+        this.id = p.getId();
+        this.name = p.getName();
+        this.price = p.getPrice();
+        this.animalCategories = p.getAnimalCategories();
     }
 
     public Product(Long id, String name, Double price) {

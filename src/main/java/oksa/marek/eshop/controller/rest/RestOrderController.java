@@ -35,26 +35,45 @@ public class RestOrderController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = userService.findByUserName(username);
 
-        return ResponseEntity.ok(orderService.getAllOrdersByUserIdForLoggedInUser(currentUser.getId(), num).getContent());
+        List<Order> orders = orderService.getAllOrdersByUserIdForLoggedInUser(currentUser.getId(), num).getContent();
+
+        //I don't want to send to user his own details in the order
+        orders.forEach(order -> order.setUser(null));
+
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/admin/orders/page/{num}")
     public ResponseEntity<List<Order>> getAllOrders(@PathVariable
                                                     @PositiveOrZero(message = "Page number must be > 0 !") Integer num) {
+        //Here I don't want to send user's id and password to admin
+        //It's not the most elegant way to do it, but it works ... ;D
+        List<Order> orders = orderService.getOrdersLimitByPageNum(num).getContent();
+        orders.forEach(order -> {
+            order.getUser().setPassword(null);
+            order.getUser().setId(null);
+        });
 
-        return new ResponseEntity<>(orderService.getOrdersLimitByPageNum(num).getContent(), HttpStatus.OK);
+        return ResponseEntity.ok(orders);
     }
 
     @GetMapping("/admin/orders/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable
-                                              @Positive(message = "Order id must be > 0 !") Long id) {
-        return ResponseEntity.ok(orderService.findById(id));
+                                              @Positive(message = "Order id must be > 0 !")
+                                                      Long id) {
+        Order order = orderService.findById(id);
+        order.getUser().setPassword(null);
+        order.getUser().setId(null);
+
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping("/user/createOrder")
-    public ResponseEntity<Order> createNewOrder(@RequestBody
-                                                @NotNull(message = "New Order cannot be null !") @Valid Order newOrder) {
-
-        return new ResponseEntity<>(orderService.save(newOrder), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createNewOrder(@RequestBody
+                               @NotNull(message = "New Order cannot be null !")
+                               @Valid
+                                       Order newOrder) {
+        orderService.save(newOrder);
     }
 }

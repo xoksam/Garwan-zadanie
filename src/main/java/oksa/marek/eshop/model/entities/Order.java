@@ -1,5 +1,6 @@
 package oksa.marek.eshop.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import static com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 @Table(name = "orders")
@@ -26,6 +29,7 @@ public class Order {
     private List<OrderedProduct> orderedProducts;
 
     @ManyToOne
+    @JsonInclude(Include.NON_NULL)
     @NotNull(message = "User cannot be null !")
     private User user;
 

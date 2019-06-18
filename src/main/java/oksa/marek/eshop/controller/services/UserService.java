@@ -1,13 +1,11 @@
 package oksa.marek.eshop.controller.services;
 
 
-import oksa.marek.eshop.controller.repositories.IUserRepository;
-import oksa.marek.eshop.model.entities.Order;
-import oksa.marek.eshop.model.entities.User;
 import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomIllegalArgumentException;
 import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomNotFoundException;
+import oksa.marek.eshop.controller.repositories.IUserRepository;
+import oksa.marek.eshop.model.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +25,14 @@ public class UserService {
         return repository.findById(id).orElseThrow(() -> new CustomNotFoundException("id", id.toString(), User.class));
     }
 
+    public User findByUserNameAndEmail(String username, String email) {
+
+        User user = repository.findByUserNameAndEmail(email, username);
+        if (user == null) throw new CustomNotFoundException("userName", username, User.class);
+
+        return user;
+    }
+
     public User findByUserName(String userName) {
         User user = repository.findByUserName(userName);
         if (user == null) throw new CustomNotFoundException("userName", userName, User.class);
@@ -35,10 +41,11 @@ public class UserService {
     }
 
     public User save(User newUser) {
+
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
 
         if (checkIfExists(newUser))
-        throw new CustomIllegalArgumentException("User with username '" + newUser.getUserName() +
+            throw new CustomIllegalArgumentException("User with username '" + newUser.getUserName() +
                     "' or email '" + newUser.getEmail() + "' already exists !");
 
         return repository.save(newUser);

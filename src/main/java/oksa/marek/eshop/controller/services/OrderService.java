@@ -1,15 +1,14 @@
 package oksa.marek.eshop.controller.services;
 
 
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomIllegalArgumentException;
+import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomNotFoundException;
 import oksa.marek.eshop.controller.repositories.IOrderRepository;
 import oksa.marek.eshop.model.entities.Order;
-import oksa.marek.eshop.controller.errorhandlers.exceptions.CustomNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class OrderService {
@@ -37,12 +36,16 @@ public class OrderService {
     }
 
     public Order save(Order newOrder) {
+//        //Since user can be null, because of the way I'm dealing with not sending user's information,
+//        // I have to check it this way... -_-
+//        if(newOrder.getUser() == null) {
+//            throw new CustomIllegalArgumentException("User in Order cannot be null !");
+//        }
         newOrder = repository.save(newOrder);
-        //ak je spocitana total price, tak iba vrati ulozeny order
         if (newOrder.getTotalPrice() != null) {
             return newOrder;
         }
-        // ak nie je spocitana total price, tak ju service spocita sam podla ordered products
+
         newOrder.setTotalPrice(getTotalPriceByOrderId(newOrder.getId()));
 
         return repository.save(newOrder);

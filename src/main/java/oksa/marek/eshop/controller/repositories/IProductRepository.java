@@ -14,8 +14,11 @@ public interface IProductRepository extends JpaRepository<Product, Long> {
             value = "SELECT * FROM products p WHERE p.name LIKE %:prodName%")
     Page<Product> findByName(@Param("prodName") String prodName, Pageable pageable);
 
-    @Query("select new oksa.marek.eshop.model.entities.Product(p.id, p.name, p.price) from Product p where p.name like concat(?3, '%') and " +
-            "p.price >= ?1 and p.price <= ?2")
+
+    //    @Query(nativeQuery = true,
+//           value = "SELECT * FROM products p WHERE p.name LIKE CONCAT(:prefix, '%') AND p.price >= :minPrice AND p.price <= :maxPrice")
+    @Query("select new oksa.marek.eshop.model.entities.Product(p) from Product p where p.name " +
+            "like concat(?3, '%') and p.price >= ?1 and p.price <= ?2")
     Page<Product> findFilteredProductsByPriceAndName(Double minPrice, Double maxPrice,
                                                      String prefix, Pageable pageable);
 

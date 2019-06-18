@@ -24,6 +24,8 @@ public class ProductService {
     }
 
     public Page<Product> findFilteredProductsByPriceAndName(ProductFilter filter, Integer pageNum) {
+
+
         return repository.findFilteredProductsByPriceAndName(filter.getMinPrice(), filter.getMaxPrice(),
                 filter.getPrefix(), PageRequest.of(pageNum, PRODUCTS_PER_PAGE));
     }
@@ -32,13 +34,13 @@ public class ProductService {
         return repository.save(newProduct);
     }
 
-    public List<Product> findByName(String name, Integer pageNum) {
+    public Page<Product> findByName(String name, Integer pageNum) {
         Page<Product> products = repository.findByName(name, PageRequest.of(pageNum, PRODUCTS_PER_PAGE));
 
         if (products == null || products.getContent() == null || products.getContent().size() < 1)
             throw new CustomNotFoundException("name", name, Product.class);
 
-        return products.getContent();
+        return products;
     }
 
     public Product findById(Long id) {
