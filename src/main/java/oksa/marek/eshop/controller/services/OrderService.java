@@ -36,18 +36,14 @@ public class OrderService {
     }
 
     public Order save(Order newOrder) {
-//        //Since user can be null, because of the way I'm dealing with not sending user's information,
-//        // I have to check it this way... -_-
-//        if(newOrder.getUser() == null) {
-//            throw new CustomIllegalArgumentException("User in Order cannot be null !");
-//        }
+
         newOrder = repository.save(newOrder);
         if (newOrder.getTotalPrice() != null) {
             return newOrder;
         }
 
         newOrder.setTotalPrice(getTotalPriceByOrderId(newOrder.getId()));
-
+        System.out.println(newOrder);
         return repository.save(newOrder);
     }
 }

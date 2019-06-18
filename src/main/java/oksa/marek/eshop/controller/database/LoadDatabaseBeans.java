@@ -3,6 +3,7 @@ package oksa.marek.eshop.controller.database;
 import oksa.marek.eshop.controller.repositories.*;
 import oksa.marek.eshop.controller.security.SecurityConstants;
 import oksa.marek.eshop.controller.services.OrderService;
+import oksa.marek.eshop.controller.services.OrderedProductService;
 import oksa.marek.eshop.controller.services.ProductService;
 import oksa.marek.eshop.controller.services.UserService;
 import oksa.marek.eshop.model.entities.*;
@@ -21,7 +22,7 @@ public class LoadDatabaseBeans {
     @Bean
     public CommandLineRunner initUsers(UserService userService) {
         return args -> {
-            System.out.println("Preloading: " + userService.save(new User("FeroTestovac","pass" ,"feroTestovac@gmail.com")));
+            System.out.println("Preloading: " + userService.save(new User("FeroTestovac", "pass", "feroTestovac@gmail.com")));
             System.out.println("Preloading: " + userService.save(new User("mrkvac", "pswd", "mrkvac@centrum.sk")));
             System.out.println("Preloading: " + userService.save(new User("testUser", "testPassWd", "tstUsr@gmail.com")));
 
@@ -87,7 +88,7 @@ public class LoadDatabaseBeans {
 
     @Bean
     public CommandLineRunner initOrders(ProductService productService,
-                                        IOrderedProductRepository orderedProductRepository, IUserRepository userRepository,
+                                        OrderedProductService orderedProductService, IUserRepository userRepository,
                                         OrderService orderService) {
         return args -> {
 
@@ -97,19 +98,19 @@ public class LoadDatabaseBeans {
             User user = userRepository.findByUserName("mrkvac");
             User user2 = userRepository.findByUserName("testUser");
 
-            OrderedProduct orderedProduct = orderedProductRepository.save(new OrderedProduct(product, 3, product.getPrice()));
-            OrderedProduct orderedProduct2 = orderedProductRepository.save(new OrderedProduct(product2, 2, product2.getPrice()));
+            OrderedProduct orderedProduct = orderedProductService.save(new OrderedProduct(product, 3, product.getPrice()));
+            OrderedProduct orderedProduct2 = orderedProductService.save(new OrderedProduct(product2, 2, product2.getPrice()));
 
-            OrderedProduct orderedProduct3 = orderedProductRepository.save(new OrderedProduct(product, 5, product.getPrice()));
+            OrderedProduct orderedProduct3 = orderedProductService.save(new OrderedProduct(product, 5, product.getPrice()));
 
 
-            List<OrderedProduct> orderedProducts = Arrays.asList(orderedProductRepository.findById(orderedProduct.getId()).get());
-            List<OrderedProduct> orderedProducts2 = Arrays.asList(orderedProductRepository.findById(orderedProduct.getId()).get(),
-                    orderedProductRepository.findById(orderedProduct2.getId()).get());
+            List<OrderedProduct> orderedProducts = Arrays.asList(orderedProductService.findById(orderedProduct.getId()));
+            List<OrderedProduct> orderedProducts2 = Arrays.asList(orderedProductService.findById(orderedProduct.getId()),
+                    orderedProductService.findById(orderedProduct2.getId()));
 
             Order o1 = new Order(orderedProducts, user);
             Order o2 = new Order(orderedProducts2, user2);
-            Order o3 = new Order(Arrays.asList(orderedProductRepository.findById(orderedProduct3.getId()).get()), user);
+            Order o3 = new Order(Arrays.asList(orderedProductService.findById(orderedProduct3.getId())), user);
 
             System.out.println("Order: " + o1 + "\nOrder2: " + o2 + "\nOrder3: " + o3 + "\n\n");
 

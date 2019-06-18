@@ -30,14 +30,14 @@ public class Order {
 
     @ManyToOne
     @JsonInclude(Include.NON_NULL)
-    @NotNull(message = "User cannot be null !")
+//    @NotNull(message = "User cannot be null !")
     private User user;
 
     @PositiveOrZero(message = "Total price must be > 0 !")
     private Double totalPrice;
 
     @Column(updatable = false, nullable = false)
-    @NotNull
+//    @NotNull
     private Date time;
 
     public Order() {
@@ -46,6 +46,10 @@ public class Order {
     public Order(List<OrderedProduct> orderedProducts, User user) {
         this.orderedProducts = orderedProducts;
         this.user = user;
+    }
+
+    public Order(List<OrderedProduct> orderedProducts) {
+        this.orderedProducts = orderedProducts;
     }
 
     public Order(Collection<OrderedProduct> orderedProducts, Double totalPrice) {

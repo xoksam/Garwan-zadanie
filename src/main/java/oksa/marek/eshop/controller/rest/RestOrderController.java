@@ -1,6 +1,7 @@
 package oksa.marek.eshop.controller.rest;
 
 import oksa.marek.eshop.controller.services.OrderService;
+import oksa.marek.eshop.controller.services.OrderedProductService;
 import oksa.marek.eshop.controller.services.UserService;
 import oksa.marek.eshop.model.entities.Order;
 import oksa.marek.eshop.model.entities.User;
@@ -22,10 +23,12 @@ public class RestOrderController {
 
     private final OrderService orderService;
     private final UserService userService;
+    private final OrderedProductService orderedProductService;
 
-    public RestOrderController(OrderService orderService, UserService userService) {
+    public RestOrderController(OrderService orderService, UserService userService, OrderedProductService orderedProductService) {
         this.orderService = orderService;
         this.userService = userService;
+        this.orderedProductService = orderedProductService;
     }
 
     @GetMapping("/user/orders/page/{num}")
@@ -74,6 +77,13 @@ public class RestOrderController {
                                @NotNull(message = "New Order cannot be null !")
                                @Valid
                                        Order newOrder) {
+
+        orderedProductService.saveAll(newOrder.getOrderedProducts());
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        newOrder.setUser(userService.findByUserName(username));
+
+        System.out.println(newOrder);
         orderService.save(newOrder);
     }
 }
