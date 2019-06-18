@@ -55,6 +55,9 @@ public class Product {
         this.gallery = gallery;
     }
 
+    /**
+     * NOT A COPY CONSTRUCTOR
+     **/
     //Special constructor for the JPQL Query in IProductRepository
     public Product(Product p) {
         this.id = p.getId();
@@ -63,11 +66,6 @@ public class Product {
         this.animalCategories = p.getAnimalCategories();
     }
 
-    public Product(Long id, String name, Double price) {
-        this.id = id;
-        this.price = price;
-        this.name = name;
-    }
 
     public String getName() {
         return name;

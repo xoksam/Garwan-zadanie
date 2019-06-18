@@ -10,6 +10,6 @@ public class SecurityConstants {
     static final String AUTHENTICATED_URLS = "/user/**";
     static final String ADMIN_URLS = "/admin/**";
 
-    public static final String ADMIN_ROLE = "ADMIN";
-    public static final String USER_ROLE = "USER";
+    public static final String ADMIN_AUTH = "ADMIN";
+    public static final String USER_AUTH = "USER";
 }

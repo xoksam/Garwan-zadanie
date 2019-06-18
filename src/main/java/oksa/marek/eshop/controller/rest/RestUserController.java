@@ -5,7 +5,6 @@ import oksa.marek.eshop.controller.services.UserService;
 import oksa.marek.eshop.model.entities.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
@@ -79,7 +78,7 @@ public class RestUserController {
                              @Valid
                                      User newUser) {
         if (newUser.getAuthority() == null) {
-            newUser.setAuthority(SecurityConstants.USER_ROLE);
+            newUser.setAuthority(SecurityConstants.USER_AUTH);
         }
 
         userService.save(newUser);

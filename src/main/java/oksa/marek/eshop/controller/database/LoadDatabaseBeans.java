@@ -27,7 +27,7 @@ public class LoadDatabaseBeans {
             System.out.println("Preloading: " + userService.save(new User("testUser", "testPassWd", "tstUsr@gmail.com")));
 
             System.out.println("Preloading: " + userService.save(new User(
-                    "admin", "admin", "admin@eshop.com", SecurityConstants.ADMIN_ROLE)));
+                    "admin", "admin", "admin@eshop.com", SecurityConstants.ADMIN_AUTH)));
         };
     }
 

@@ -83,7 +83,6 @@ public class RestOrderController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         newOrder.setUser(userService.findByUserName(username));
 
-        System.out.println(newOrder);
         orderService.save(newOrder);
     }
 }

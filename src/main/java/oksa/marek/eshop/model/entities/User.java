@@ -62,7 +62,7 @@ public class User implements UserDetails {
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.authority = SecurityConstants.USER_ROLE;
+        this.authority = SecurityConstants.USER_AUTH;
     }
 
     @Override
@@ -83,6 +83,10 @@ public class User implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     @JsonIgnore
     public String getUsername() {
@@ -90,27 +94,27 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return false;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return false;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public List<Order> getOrders() {
