@@ -15,7 +15,7 @@ Ide o Spring Boot aplikáciu naprogramovanú v jazyku Java 8 s využitím viacer
 - mySQL
 
 ## Návod ako zbuildiť deployovatelný artefakt
-**Kedže ide o Maven projekt, je nutné ho mať nainštalovaný!**
+**Kedže ide o Maven projekt, je nutné ho mať [nainštalovaný](http://maven.apache.org/download.cgi)!**
 
     git clone https://github.com/xoksam/Garwan-zadanie.git
     cd Garwan-zadanie
@@ -24,3 +24,7 @@ Maven by mal takto vytvoriť v podadresári `target` spustiteľný `.jar` súbor
 
     cd target
     java -jar eshop-0.0.1-SNAPSHOT
+
+
+          
+      
