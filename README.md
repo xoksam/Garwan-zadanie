@@ -2,7 +2,7 @@
 Tento projekt vznikol ako zadanie z pohovoru spoločnosti Garwan Consulting, s.r.o.
 Ide o Spring Boot aplikáciu naprogramovanú v jazyku Java 8 s využitím viacerých technológií. 
 
-##Použité technológie
+## Použité technológie
 
 - Maven 3.6.1
 - Java 8
