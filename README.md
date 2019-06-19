@@ -25,3 +25,22 @@ Maven by mal takto vytvoriť v podadresári `target` spustiteľný `.jar` súbor
     cd target
     java -jar eshop-0.0.1-SNAPSHOT
 
+## Ako aplikáciu spustiť pri lokálnom vývoji
+Ako prvé je nutné mať nainštalované mySQL, v ktorom si treba vytvoriť databázu 
+
+Potom:
+
+    git clone https://github.com/xoksam/Garwan-zadanie.git
+ 
+Po vytvorení databázy ju treba zmeniť v súbore `src/main/resources/application.properties` 
+
+kde stačí editovať následujúce riadky:
+    
+      spring.datasource.url=jdbc:mysql://localhost:[port]/[nazov databazy]
+      spring.datasource.username=[meno do databázy]
+      spring.datasource.password=[heslo do databázy]
+       
+No a na koniec stačí zadať v adresári s projektom:
+    
+    mvn clean install
+    mvn spring-boot:run      
